@@ -22,12 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
-import config 
 import subprocess
 import json
 import os
+from dotenv import find_dotenv, dotenv_values
 from ffmpeg_progress_yield import FfmpegProgress
+
+
+config = dotenv_values(find_dotenv('.env'))
+
 
 class FFprobe:
     '''
@@ -41,7 +44,7 @@ class FFprobe:
         - getFramesInfo()
         - getPacketsInfo()
     '''
-    cmd = config.ffprobe
+    cmd = config['ffprobe']
     def __init__ (self, videoSrc, loglevel = "info"):
         self.videoSrc = videoSrc
         self.loglevel = loglevel
@@ -85,7 +88,7 @@ class FFmpegQos:
     Class to interact with FFmpeg QoS Filters: PSNR and VMAF. 
     Particullary, it interacts with libvmaf library through lavfi filter
     '''
-    cmd = config.ffmpeg
+    cmd = config['ffmpeg']
 
     def __init__ (self,  main, ref , loglevel = "info"):
         self.loglevel = loglevel
@@ -152,13 +155,13 @@ class FFmpegQos:
                 log_path = os.path.splitext(self.main.videoSrc)[0]+ '_vmaf.json'
         self.vmafpath = log_path
         if model =='HD': 
-            model_path = config.vmaf_HD
+            model_path = config['vmaf_HD']
             phone_model = int (phone)
         elif model =='HDneg': 
-            model_path = config.vmaf_HDneg
+            model_path = config['vmaf_HDneg']
             phone_model = int (phone)
         elif model == '4K': 
-            model_path = config.vmaf_4K
+            model_path = config['vmaf_4K']
             phone_model = 0
         if threads == 0: threads = os.cpu_count()
 

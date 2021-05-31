@@ -10,6 +10,9 @@ Details about **How it Works** can be found [here](https://ottverse.com/vmaf-eas
 
 ## Updates
 
+* [by Mickael Urrutia] Added the `python-dotenv` package to avoid hard-coded config values.
+  It's set to find the `.env` file in the current directory or above: that simplifies the use of this project as a submodule.
+
 * Progress indicator added `-progress`. It shows the progress while doing vmaf computations.
 
 * Added the option to explicilty set the number of threads to run `-threads (int)`
