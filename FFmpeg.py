@@ -29,7 +29,7 @@ from dotenv import find_dotenv, dotenv_values
 from ffmpeg_progress_yield import FfmpegProgress
 
 
-config = dotenv_values(find_dotenv('.env'))
+config = dotenv_values(find_dotenv())
 
 
 class FFprobe:

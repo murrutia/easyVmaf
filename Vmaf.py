@@ -21,6 +21,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import os
+import sys
+
+file_dir = os.path.dirname(__file__)
+sys.path.append(file_dir)
+
 from FFmpeg import FFprobe
 from FFmpeg import FFmpegQos
 
@@ -116,7 +122,7 @@ class vmaf():
         - To SYNC (in time) the MAIN and REF videos using psnr computation 
         - Frame rate conversion (if needed)
     """
-    def __init__(self, mainSrc, refSrc,output_fmt, model = "HD", phone = False, loglevel = "info", subsample = 1, threads = 0, print_progress=False):
+    def __init__(self, mainSrc, refSrc,output_fmt, log_path = None, model = "HD", phone = False, loglevel = "info", subsample = 1, threads = 0, print_progress=False):
         self.loglevel = loglevel
         self.main = video(mainSrc,self.loglevel)
         self.ref = video(refSrc,self.loglevel)
@@ -128,6 +134,7 @@ class vmaf():
         self.offset = 0
         self._initResolutions()
         self.output_fmt = output_fmt
+        self.log_path = log_path
         self.threads = threads
         self.print_progress = print_progress
 
@@ -375,7 +382,7 @@ class vmaf():
         print("output_fmt:", self.output_fmt, flush=True)
         print("=======================================", flush=True)
 
-        vmafProcess = self.ffmpegQos.getVmaf(model = self.model, phone = self.phone, subsample= self.subsample, output_fmt=self.output_fmt, threads=self.threads, print_progress= self.print_progress)
+        vmafProcess = self.ffmpegQos.getVmaf(model = self.model, phone = self.phone, subsample= self.subsample, output_fmt=self.output_fmt, log_path=self.log_path, threads=self.threads, print_progress= self.print_progress)
         return vmafProcess
 
 
