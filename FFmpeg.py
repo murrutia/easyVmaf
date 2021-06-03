@@ -133,7 +133,12 @@ class FFmpegQos:
         else: stats_file = 'stats_file_psnr.log'
 
         self.psnrFilter = [f'[{main}][{ref}]psnr=stats_file={stats_file}']       
+        
+        # Here the log level is temporary forced to "info" because it wouldn't work in a less verbose level
+        _loglevel = self.loglevel
+        self.loglevel = 'info'
         self._commit()
+        self.loglevel = _loglevel
 
         if self.loglevel == "verbose": print(self.cmd, flush=True)
         stdout = (subprocess.check_output(self.cmd,stderr=subprocess.STDOUT, shell=True)).decode('utf-8')
